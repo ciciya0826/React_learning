@@ -52,9 +52,9 @@ function Board({xIsNext,squares,onPlay}) {
 
 export default function Game(){
   const[history,setHistory]=useState([Array(9).fill(null)]);
-  const[xIsNext,setXIsNext]=useState(true)
   const[currentMove,setCurrentMove]=useState(0)
   const currentSquares = history[currentMove]
+  const xIsNext = (currentMove%2===0)
 
   //状态提升
   function handlePlay(nextSquares){
@@ -63,12 +63,10 @@ export default function Game(){
     setHistory(nextHistory);
     //回到在数组中的多少(索引)
     setCurrentMove(nextHistory.length-1);
-    setXIsNext(!xIsNext);
   }
 
   function jumpTo(nextMove){
     setCurrentMove(nextMove);
-    setXIsNext(nextMove % 2 ===0)
   }
 
   const moves=history.map((squares,move)=>{  //map()遍历history,对每个元素执行回调函数
