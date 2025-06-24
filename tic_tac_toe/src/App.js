@@ -61,6 +61,25 @@ export default function Game(){
     setXIsNext(!xIsNext);
   }
 
+  function jumpTo(move){
+
+  }
+
+  const moves=history.map((squares,move)=>{  //map()遍历history,对每个元素执行回调函数
+    //map()三个参数:数组中正在处理的当前元素(必选),当前元素的索引位置,原始数组
+    let descriptions;
+    if(move>0){
+      descriptions = 'Go to move #'+move;
+    }else{
+      descriptions = 'Go to game start';
+    }
+    return(
+      <li>
+        <button onClick={()=>jumpTo(move)}>{descriptions}</button>
+      </li>
+    )
+  })
+
   return(
     <div className="game">
       <div className="game-board">
@@ -68,7 +87,7 @@ export default function Game(){
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay}/> 
       </div>
       <div className="game-info">
-
+        <ol>{moves}</ol>
       </div>
     </div>
   )
