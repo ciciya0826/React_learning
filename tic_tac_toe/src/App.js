@@ -74,7 +74,7 @@ export default function Game(){
       descriptions = 'Go to game start';
     }
     return(
-      <li>
+      <li key={move}>
         <button onClick={()=>jumpTo(move)}>{descriptions}</button>
       </li>
     )
