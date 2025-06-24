@@ -6,10 +6,7 @@ function Square({value,onhandleClick}){
           </button>
 }
 
-export default function Board() {
-  const[squares,setSquares]=useState(Array(9).fill(null));
-  const[xIsNext,setXIsNext]=useState(true)
-
+function Board({xIsNext,squares,onPlay}) {
   function handleclick(i){
     //判断这个方块上有没有落子+有没有人胜出
     if(squares[i] || calculateWinner(squares))  return;
@@ -20,8 +17,7 @@ export default function Board() {
       }else{
         nextSquares[i]='O'
       }
-    setSquares(nextSquares);
-    setXIsNext(!xIsNext);
+    onPlay(nextSquares)
   }
   //是否有人胜出+下一个落子者
   const winner=calculateWinner(squares);
@@ -52,6 +48,32 @@ export default function Board() {
       </div>
     </>
   )
+}
+
+export default function Game(){
+  const[history,setHistory]=useState([Array(9).fill(null)]);
+  const[xIsNext,setXIsNext]=useState(true)
+  const currentSquares = history[history.length-1]
+
+  //状态提升
+  function handlePlay(nextSquares){
+    setHistory([...history,nextSquares])
+    setXIsNext(!xIsNext);
+  }
+
+  return(
+    <div className="game">
+      <div className="game-board">
+        {/*从这里把xIsNext,squares和onPlay传给Board*/}
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay}/> 
+      </div>
+      <div className="game-info">
+
+      </div>
+    </div>
+  )
+}
+
 
   //判断赢家
   function calculateWinner(squares){
@@ -73,4 +95,3 @@ export default function Board() {
     }
     return null;
   }
-}
